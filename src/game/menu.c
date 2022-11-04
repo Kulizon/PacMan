@@ -9,7 +9,7 @@
 #include <time.h>
 
 #include "../../main.h"
-
+#include "../entity.h"
 
 void init_end_menu(SDL_Renderer *rend, SDL_Window *win, struct Menu *menu) {
     struct Entity end_menu_points_text;

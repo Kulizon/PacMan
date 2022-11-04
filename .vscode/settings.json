@@ -11,6 +11,16 @@
         "cmath": "c",
         "algorithm": "c",
         "stdlib.h": "c",
-        "game.h": "c"
+        "game.h": "c",
+        "sdl_image.h": "c",
+        "sdl_mixer.h": "c",
+        "sdl_timer.h": "c",
+        "menu.h": "c",
+        "sdl_ttf.h": "c",
+        "stdio.h": "c",
+        "main.h": "c",
+        "entity.h": "c",
+        "characters.h": "c",
+        "map.h": "c"
     }
 }

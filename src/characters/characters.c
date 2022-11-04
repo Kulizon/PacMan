@@ -9,6 +9,8 @@
 #include <time.h>
 
 #include "../../main.h"
+#include "../entity.h"
+#include "../map.h"
 
 const char directions[4] = {'u', 'r', 'd', 'l'};
 
@@ -141,8 +143,8 @@ void init_ghosts(SDL_Renderer *rend,  SDL_Window *win, struct Entity ghosts[]) {
     int r = rand() % 4;
     ghost.direction_next = directions[r];
 
-    int fix_x = 1.25;
-    int fix_y = 1.25;
+    int fix_x = 1;
+    int fix_y = 1;
 
     switch (i)
     {
