@@ -18,5 +18,7 @@ void init_main_menu(SDL_Renderer *rend, SDL_Window *win, struct Menu *menu);
 void render_main_menu(SDL_Renderer *rend, SDL_Window *win, struct Menu *menu);
 void init_menu(struct Menu *menu);
 void render_menu(SDL_Renderer *rend, SDL_Window *win, struct Menu *menu, struct Game *game);
+bool load_music(struct Music *music);
+void close_music(struct Music *music);
 
 #endif

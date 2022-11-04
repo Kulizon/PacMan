@@ -25,6 +25,7 @@
 #define PLAYER_ANIMATION_INTERVAL (4)
 
 
+
 struct Game {
     int points;
     int map_points;
