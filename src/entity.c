@@ -10,17 +10,16 @@
 
 #include "../main.h"
 
+// init text
 void init_entity(SDL_Renderer *rend, SDL_Window *win, struct Entity *ent, char img_path[]){
 
+    // clean up on rerender
     if (ent->surface) {
         SDL_FreeSurface(ent->surface);
     }
     if (ent->texture != NULL) {
         SDL_DestroyTexture(ent->texture);
     }
-
-
-    
 
     SDL_Surface* surface = IMG_Load(img_path);
 
@@ -48,8 +47,9 @@ void init_entity(SDL_Renderer *rend, SDL_Window *win, struct Entity *ent, char i
 
 
 
-
+// init AND render text
 void init_text_entity(SDL_Renderer *rend, struct Menu *menu, struct Entity *ent, char text[], char font_size, bool is_color_alt) {
+    // clean up on rerender
     if (ent->surface) {
         SDL_FreeSurface(ent->surface);
     }
@@ -57,7 +57,7 @@ void init_text_entity(SDL_Renderer *rend, struct Menu *menu, struct Entity *ent,
         SDL_DestroyTexture(ent->texture);
     }
 
-    
+    // asign font size
     TTF_Font *font = 0;
     if (font_size == 's') font = menu->font_s;
     else if (font_size == 'm') font = menu->font_m;
@@ -71,12 +71,9 @@ void init_text_entity(SDL_Renderer *rend, struct Menu *menu, struct Entity *ent,
     SDL_Texture* text_texture = SDL_CreateTextureFromSurface(rend, text_surface);
     SDL_RenderCopy(rend, text_texture, NULL, &ent->dest);
 
+    // get text dimensions and asign proper width and height
     TTF_SizeText(font, text, &ent->dest.w, &ent->dest.h);
     
     (*ent).surface = text_surface;
     (*ent).texture = text_texture;
-
-    // SDL_FreeSurface(text_surface);
-    // SDL_DestroyTexture(text_texture);
-    
 }

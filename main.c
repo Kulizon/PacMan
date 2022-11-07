@@ -60,7 +60,7 @@ int main(void) {
         SDL_Quit();
         return 1;
     }
-
+    
 
     struct Music music;
     load_music(&music);

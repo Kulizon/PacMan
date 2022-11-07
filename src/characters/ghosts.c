@@ -39,6 +39,7 @@ void init_ghosts(SDL_Renderer *rend,  SDL_Window *win, struct Entity ghosts[]) {
     int fix_x = 1;
     int fix_y = 1;
 
+    // set different position for every ghost
     switch (i)
     {
     case 0:
@@ -57,8 +58,6 @@ void init_ghosts(SDL_Renderer *rend,  SDL_Window *win, struct Entity ghosts[]) {
         break;
     }
 
-
-
     ghosts[i] = ghost;
     }
     
@@ -68,6 +67,7 @@ void init_ghosts(SDL_Renderer *rend,  SDL_Window *win, struct Entity ghosts[]) {
 void handle_ghost_logic(struct Entity *ghost, struct Entity tiles_entities[], struct Game *game, struct Music *music) {
         // move if ghost met wall
         int collisionHappened = check_map_collisions(tiles_entities, ghost, game, music, false);
+        // if collision happened then get possible random next direction
         if (collisionHappened == 1) {
              char next_random_ghost_direction;
              int r;
@@ -82,15 +82,13 @@ void handle_ghost_logic(struct Entity *ghost, struct Entity tiles_entities[], st
             || ((*ghost).direction == 'l' && next_random_ghost_direction == 'r' )
             || ((*ghost).direction == 'd' && next_random_ghost_direction == 'u') 
             || ((*ghost).direction == 'u' && next_random_ghost_direction == 'd') )   {
+                // make chance of going in opposite direction to current smaller
                 if (go_back != 7)  {
                     next_random_ghost_direction = (*ghost).direction;   
                 }
                 
 
             }
-
-
-
             } while ((*ghost).direction == next_random_ghost_direction);
 
 

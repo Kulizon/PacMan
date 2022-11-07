@@ -14,7 +14,7 @@
 #include "ghosts.h"
 
 
-
+// check for any collision
 bool is_collision(int x_posA, int y_posA, int x_posB, int y_posB, SDL_Rect  destA, SDL_Rect  destB,  bool check_center) {
         float leftA = x_posA;
         float rightA = x_posA + destA.w;
@@ -27,7 +27,7 @@ bool is_collision(int x_posA, int y_posA, int x_posB, int y_posB, SDL_Rect  dest
         float bottomB = y_posB + destB.h ;
 
 
-
+    // for player&ghost collision
     if (check_center) {
         leftA = rightA = x_posA + destA.w / 2;
         topA = bottomA = y_posA + destA.h / 2;
@@ -61,7 +61,8 @@ void determine_velocity(struct Entity *entity, char direction, bool is_next, boo
 
         int speed = is_disoriented ? DISORIENTED_SPEED : is_vulnerable ? VULNREABLE_SPEED : SPEED;
 
-        // check for change direction with next move
+        // move simulation
+        // asign next values to check if turn is neccessary for next move
         if (is_next == 1) {
         (*entity).x_vel_next = (*entity).y_vel_next = 0;
         if (direction == 'u') (*entity).y_vel_next = -speed;
@@ -72,6 +73,7 @@ void determine_velocity(struct Entity *entity, char direction, bool is_next, boo
         if ((direction == 'r' ||  direction == 'l') ) (*entity).x_pos_next += (*entity).x_vel_next / 60;
         if ((direction == 'd' || direction == 'u')) (*entity).y_pos_next += (*entity).y_vel_next / 60;
         } else {
+        // normal move
         (*entity).x_vel = (*entity).y_vel = 0;
         if (direction == 'u') (*entity).y_vel = -speed;
         if (direction == 'd') (*entity).y_vel = speed;
@@ -86,7 +88,7 @@ void determine_velocity(struct Entity *entity, char direction, bool is_next, boo
 
 }
 void handle_movement(struct Entity tiles_entities[], struct Entity *entity, struct Game *game, struct Music *music) {
-        // check if ghost is disoriented
+        // check if ghost is disoriented and asign speed accordingly
         bool is_disoriented = (entity->ghost_disoriented && entity->type == 'g' ) ? true : false;
         bool is_vulnerable = (game->powerup && entity->type == 'g' ) ? true : false;
 
@@ -125,9 +127,7 @@ void init_character(struct Entity *entity, int initial_pos_x, int initial_pos_y,
     (*entity).type = entity_type;
 }
 
-
-
-// teleport to other side
+// passing through map
 void check_map_boundaries(struct Entity *entity) {
     if ((*entity).x_pos <= -TILE_WIDTH - 1) {
         (*entity).x_pos = MAP_WIDTH;

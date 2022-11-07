@@ -71,6 +71,8 @@ bool load_music(struct Music *music)
     return success;
 }
 
+
+// clean up music before closing
 void close_music(struct Music *music) {
     // free the sound effects
     Mix_FreeChunk( music->gDeath );
@@ -108,16 +110,15 @@ void render_end_menu(SDL_Renderer *rend, SDL_Window *win, struct Menu *menu, str
     (*menu).end_menu_lost_text.dest.x = (WINDOW_WIDTH - (*menu).end_menu_lost_text.dest.w ) / 2;
     (*menu).end_menu_lost_text.dest.y = 200;
 
+    // convert current points to string
     char points_text[22];
     if (game->points != 1)    sprintf(points_text, "You've got %d points", (*game).points);
     else    sprintf(points_text, "You've got %d point", (*game).points);
 
-
-
     init_text_entity(rend, menu, &(*menu).end_menu_points_text, points_text, 'm', false);
     (*menu).end_menu_points_text.dest.x = (WINDOW_WIDTH - (*menu).end_menu_points_text.dest.w ) / 2;
     (*menu).end_menu_points_text.dest.y = menu->end_menu_lost_text.dest.y + menu->end_menu_lost_text.dest.h + 40;
-        
+          
     init_text_entity(rend, menu, &(*menu).end_menu_restart_text, "Press SPACEBAR to restart", 'm', true);
     (*menu).end_menu_restart_text.dest.x = (WINDOW_WIDTH - (*menu).end_menu_restart_text.dest.w ) / 2;
     (*menu).end_menu_restart_text.dest.y = MAP_HEIGHT - 100;
@@ -165,6 +166,7 @@ void render_main_menu(SDL_Renderer *rend, SDL_Window *win, struct Menu *menu) {
 
 }
 
+// initialize main fonts and colors
 void init_menu(struct Menu *menu) {
     TTF_Font* font_s = TTF_OpenFont("resources/Font.ttf", 20);
     TTF_Font* font_m = TTF_OpenFont("resources/Font.ttf", 24);
@@ -189,6 +191,7 @@ void render_menu(SDL_Renderer *rend, SDL_Window *win, struct Menu *menu, struct 
     char points_text[12];
     sprintf(points_text, "%d", (*game).points);
 
+    // show powerup timer only if powerup is on
     char powerup_timer_text[12];
     if (game->powerup && game->powerup_timer > 0) {
         sprintf(powerup_timer_text, "%d", game->powerup_timer);
@@ -196,7 +199,7 @@ void render_menu(SDL_Renderer *rend, SDL_Window *win, struct Menu *menu, struct 
         sprintf(powerup_timer_text, "");
     }
 
-
+    // show powerup indicator only if powerup is on
     char powerup_text[16];
     if (game->powerup) {
         strcpy(powerup_text, "Powerup!");
@@ -204,6 +207,7 @@ void render_menu(SDL_Renderer *rend, SDL_Window *win, struct Menu *menu, struct 
        strcpy(powerup_text, "");
     }
 
+    // display user's left lives
     char lives_text[10];
     sprintf(lives_text, "Lives x%d", game->lives);
 
