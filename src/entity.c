@@ -11,6 +11,17 @@
 #include "../main.h"
 
 void init_entity(SDL_Renderer *rend, SDL_Window *win, struct Entity *ent, char img_path[]){
+
+    if (ent->surface) {
+        SDL_FreeSurface(ent->surface);
+    }
+    if (ent->texture != NULL) {
+        SDL_DestroyTexture(ent->texture);
+    }
+
+
+    
+
     SDL_Surface* surface = IMG_Load(img_path);
 
     if (!surface)
@@ -23,7 +34,6 @@ void init_entity(SDL_Renderer *rend, SDL_Window *win, struct Entity *ent, char i
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(rend, surface);
 
-    SDL_FreeSurface(surface);
     if (!texture)
     {
         printf("error creating texture: %s\n", SDL_GetError());
@@ -40,7 +50,15 @@ void init_entity(SDL_Renderer *rend, SDL_Window *win, struct Entity *ent, char i
 
 
 void init_text_entity(SDL_Renderer *rend, struct Menu *menu, struct Entity *ent, char text[], char font_size, bool is_color_alt) {
-    TTF_Font *font;
+    if (ent->surface) {
+        SDL_FreeSurface(ent->surface);
+    }
+    if (ent->texture != NULL) {
+        SDL_DestroyTexture(ent->texture);
+    }
+
+    
+    TTF_Font *font = 0;
     if (font_size == 's') font = menu->font_s;
     else if (font_size == 'm') font = menu->font_m;
     else if (font_size == 'l') font = menu->font_l;
@@ -58,6 +76,7 @@ void init_text_entity(SDL_Renderer *rend, struct Menu *menu, struct Entity *ent,
     (*ent).surface = text_surface;
     (*ent).texture = text_texture;
 
-    SDL_FreeSurface(text_surface);
-    SDL_DestroyTexture(text_texture);
+    // SDL_FreeSurface(text_surface);
+    // SDL_DestroyTexture(text_texture);
+    
 }

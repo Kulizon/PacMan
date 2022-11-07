@@ -15,8 +15,7 @@
 #include "../entity.h"
 #include "../characters/characters.h"
 #include "../characters/ghosts.h"
-
-
+#include "menu.h"
 
  void init_game(struct Game *game) {
     game->lost = false;
@@ -42,6 +41,7 @@ void main_game_loop(SDL_Renderer *rend, SDL_Window *win, struct Game *game, stru
 
             SDL_RemoveTimer(game->powerup_timer_id);
             init_game(game);
+            clean_up_map(tiles_entities);
             init_map(rend, win, tiles_entities, game);
             init_entity(rend, win, player, "resources/player1.png");
             init_character(player, TILE_WIDTH * 8 + TILE_WIDTH * (CHARACTER_SCALE-1) / 2, TILE_HEIGHT * 5 + TILE_HEIGHT * (CHARACTER_SCALE-1) / 2, 'p');

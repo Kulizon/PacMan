@@ -19,6 +19,8 @@ void init_ghosts(SDL_Renderer *rend,  SDL_Window *win, struct Entity ghosts[]) {
     for (int i = 0; i < 4; i++)
     {
     struct Entity ghost;
+    ghost.surface = NULL;
+    ghost.texture = NULL;
     ghost.ghost_id = i + 1;
 
     char img_path[22];

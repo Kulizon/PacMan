@@ -18,12 +18,12 @@ const char tiles[TILES_NUMBER_Y][TILES_NUMBER_X * 2] = {
 "1 0 0 0 0 1 0 0 0 0 0 1 0 0 0 1",
 "1 0 1 1 0 1 0 1 0 1 0 1 0 1 0 1",
 "1 0 1 0 0 0 l 0 0 1 0 0 0 1 0 1",
-"1 0 0 0 1 1 p 1 0 1 1 1 0 1 0 1",
-"1 0 1 0 0 p p 1 0 0 0 0 0 0 0 1",
-"1 1 1 0 1 p 1 1 0 1 1 0 1 0 1 1",
-"0 0 p p 1 p p 0 0 0 1 0 1 0 0 0",
-"1 0 1 p p p 1 0 1 0 0 0 1 1 0 1",
-"1 0 1 1 1 p 1 0 1 1 1 0 1 0 0 1",
+"1 0 0 0 1 1 c 1 0 1 1 1 0 1 0 1",
+"1 0 1 0 0 c c 1 0 0 0 0 0 0 0 1",
+"1 1 1 0 1 c 1 1 0 1 1 0 1 0 1 1",
+"0 0 c c 1 c c 0 0 0 1 0 1 0 0 0",
+"1 0 1 c c c 1 0 1 0 0 0 1 1 0 1",
+"1 0 1 1 1 c 1 0 1 1 1 0 1 0 0 1",
 "1 0 0 0 0 l 0 0 1 0 0 0 0 0 1 1",
 "1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1",
 "1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 1",
@@ -31,21 +31,42 @@ const char tiles[TILES_NUMBER_Y][TILES_NUMBER_X * 2] = {
 "1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1",
 "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"};
 
+void clean_up_map(struct Entity tiles_entities[]) {
+    for (int n = 0; n < TILES_NUMBER_X * TILES_NUMBER_Y; n++)
+    {
+    tiles_entities[n].dest.x = 0;
+    tiles_entities[n].dest.y = 0;
+    tiles_entities[n].dest.w = 0;
+    tiles_entities[n].dest.h = 0;
+    tiles_entities[n].type = '0';
 
+    SDL_FreeSurface(tiles_entities[n].surface);
+    SDL_DestroyTexture(tiles_entities[n].texture); 
+    }
 
-void init_map(SDL_Renderer *rend, SDL_Window *win, struct Entity tiles_entities[], struct Game *game ){
+}
+
+// 
+// instead of creating new strucks, use existing ones and prevent memory leak
+// 
+void init_map(SDL_Renderer *rend, SDL_Window *win, struct Entity tiles_entities[], struct Game *game){
 int n = 0;
 
 for (int i = 0; i < TILES_NUMBER_Y;  i = i + 1)
 {
     for (int j = 0; j < TILES_NUMBER_X * 2; j = j + 2)
 {
-    struct Entity tile;
 
+    struct Entity tile;
 
     tile.dest.x = 0;
     tile.dest.y = 0;
+
+
+    tile.surface = NULL;
     tile.texture = NULL;
+
+
 
 
     tile.type = '0';
@@ -58,7 +79,7 @@ for (int i = 0; i < TILES_NUMBER_Y;  i = i + 1)
         init_entity(rend, win, &tile, "resources/walls/1.png");
         SDL_QueryTexture(tile.texture, NULL, NULL, &tile.dest.w, &tile.dest.h);
         tile.type = 'w';
-    } else if (tiles[i][j] == 'p') {
+    } else if (tiles[i][j] == 'c') {
         init_entity(rend, win, &tile, "resources/point.png");
         SDL_QueryTexture(tile.texture, NULL, NULL, &tile.dest.w, &tile.dest.h);
         game->map_points += 1;

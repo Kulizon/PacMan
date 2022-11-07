@@ -127,6 +127,8 @@ void render_end_menu(SDL_Renderer *rend, SDL_Window *win, struct Menu *menu, str
 
 void init_main_menu(SDL_Renderer *rend, SDL_Window *win, struct Menu *menu) {
     struct Entity menu_text;
+    menu_text.surface = NULL;
+    menu_text.texture = NULL;
     init_entity(rend, win, &menu_text, "resources/main_menu_text.png");
     menu_text.dest.w = 500;
     menu_text.dest.h = 170;
@@ -135,6 +137,12 @@ void init_main_menu(SDL_Renderer *rend, SDL_Window *win, struct Menu *menu) {
 
     struct Entity main_menu_author_text;
     struct Entity main_menu_start_text;
+
+    main_menu_author_text.surface = NULL;
+    main_menu_author_text.texture = NULL;
+
+    main_menu_start_text.surface = NULL;
+    main_menu_start_text.texture = NULL;
 
     menu->main_menu_text = menu_text;
     menu->main_menu_author_text = main_menu_author_text;

@@ -17,8 +17,6 @@
 #include "src/map.h"
 #include "src/callbacks.h"
 
-
-
 int main(void) {
     // attempt to initialize graphics and timer system
     if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER|SDL_INIT_AUDIO) != 0)
@@ -73,19 +71,18 @@ int main(void) {
 
     init_game(&game);
 
-    struct Entity tiles_entities[256]; 
+    struct Entity tiles_entities[TILES_NUMBER_X * TILES_NUMBER_Y]; 
     init_map(rend, win, tiles_entities, &game);
 
     struct Entity player;
+    player.surface = NULL;
+    player.texture = NULL;
     init_entity(rend, win, &player, "resources/player1.png");
     init_character(&player, TILE_WIDTH * 8 + TILE_WIDTH * (CHARACTER_SCALE-1) / 2, TILE_HEIGHT * 5 + TILE_HEIGHT * (CHARACTER_SCALE-1) / 2, 'p');
 
-    // SDL_QueryTexture(player.texture, NULL, NULL, &player.dest.w, &player.dest.h);
-    
     // initialize 4 ghosts
     struct Entity ghosts[4];
     init_ghosts(rend, win, ghosts);
-
 
     // initialize menu
     struct Menu menu;
@@ -99,8 +96,6 @@ int main(void) {
     int close_requested = 0;
 
  
-    // animation loop
-    // && !lost // move it inside of loop, this loop should only listen to window close
     while (!close_requested)
     {
         // main menu
@@ -132,8 +127,6 @@ int main(void) {
         }
 
         Mix_HaltChannel(-1);
-        SDL_DestroyTexture(&menu.main_menu_text);
-
 
         main_game_loop(rend, win, &game, &menu, &music, &player, ghosts, tiles_entities, &close_requested, sizeof(tiles_entities)/sizeof(tiles_entities[0]));
 
@@ -180,7 +173,9 @@ int main(void) {
     }
 
     close_music(&music);
-    
+    TTF_CloseFont(menu.font_s);
+    TTF_CloseFont(menu.font_m);
+    TTF_CloseFont(menu.font_l);
 
     // destroy every texture here later
     SDL_DestroyRenderer(rend);
