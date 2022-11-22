@@ -17,6 +17,12 @@
 #include "src/map.h"
 #include "src/callbacks.h"
 
+//
+//
+// a* - path finding
+// 
+// 
+
 int main(void) {
     // attempt to initialize graphics and timer system
     if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER|SDL_INIT_AUDIO) != 0)
@@ -60,7 +66,7 @@ int main(void) {
         SDL_Quit();
         return 1;
     }
-    
+
 
     struct Music music;
     load_music(&music);
@@ -94,7 +100,6 @@ int main(void) {
 
     // set to 1 when window close button is pressed
     int close_requested = 0;
-
  
     while (!close_requested)
     {
@@ -129,8 +134,6 @@ int main(void) {
         Mix_HaltChannel(-1);
 
         main_game_loop(rend, win, &game, &menu, &music, &player, ghosts, tiles_entities, &close_requested, sizeof(tiles_entities)/sizeof(tiles_entities[0]));
-
-
                 if (menu.is_end_menu && !close_requested)  Mix_PlayChannel( -1, music.gBeginning, 0 );
                 while (menu.is_end_menu && !close_requested) {
                         SDL_Event event;
@@ -158,7 +161,7 @@ int main(void) {
                     SDL_Delay(100);
                 }
     }
-    
+
 
     // clean up resources before exiting
     SDL_DestroyTexture(player.texture);
@@ -167,15 +170,12 @@ int main(void) {
         SDL_DestroyTexture(ghosts[i].texture);
     }
 
-    for (int i = 0; i < TILES_NUMBER_X * TILES_NUMBER_Y; i++)
-    {
-         SDL_DestroyTexture(tiles_entities[i].texture);
-    }
-
     close_music(&music);
     TTF_CloseFont(menu.font_s);
     TTF_CloseFont(menu.font_m);
     TTF_CloseFont(menu.font_l);
+
+    clean_up_map(tiles_entities);
 
     // destroy every texture here later
     SDL_DestroyRenderer(rend);

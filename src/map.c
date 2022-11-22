@@ -13,40 +13,22 @@
 #include "entity.h"
 #include "characters/characters.h"
 
-// const char tiles[TILES_NUMBER_Y][TILES_NUMBER_X * 2] = {
-// "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
-// "1 0 0 0 0 1 0 0 0 0 0 1 0 0 0 1",
-// "1 0 1 1 0 1 0 1 0 1 0 1 0 1 0 1",
-// "1 0 1 0 0 0 l 0 0 1 0 0 0 1 0 1",
-// "1 0 0 0 1 1 c 1 0 1 1 1 0 1 0 1",
-// "1 0 1 0 0 c c 1 0 0 0 0 0 0 0 1",
-// "1 1 1 0 1 c 1 1 0 1 1 0 1 0 1 1",
-// "0 0 c c 1 c c 0 0 0 1 0 1 0 0 0",
-// "1 0 1 c c c 1 0 1 0 0 0 1 1 0 1",
-// "1 0 1 1 1 c 1 0 1 1 1 0 1 0 0 1",
-// "1 0 0 0 0 l 0 0 1 0 0 0 0 0 1 1",
-// "1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1",
-// "1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 1",
-// "1 0 1 0 1 1 1 0 1 0 1 0 1 1 1 1",
-// "1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1",
-// "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"};
-
 const char tiles[TILES_NUMBER_Y][TILES_NUMBER_X * 2] = {
 "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
-"1 0 0 0 0 1 0 0 0 0 0 1 0 0 0 1",
-"1 0 1 1 0 1 0 1 0 1 0 1 0 1 0 1",
-"1 0 1 0 0 0 l 0 0 1 0 0 0 1 0 1",
-"1 0 0 0 1 1 c 1 0 1 1 1 0 1 0 1",
-"1 0 1 0 0 c c 1 0 0 0 0 0 0 0 1",
-"1 1 1 0 1 c 1 1 0 1 1 0 1 0 1 1",
-"0 0 c c 1 c c 0 0 0 1 0 1 0 0 0",
-"1 0 1 c c c 1 0 1 0 0 0 1 1 0 1",
-"1 0 1 1 1 c 1 0 1 1 1 0 1 0 0 1",
-"1 0 0 0 0 l 0 0 1 0 0 0 0 0 1 1",
-"1 0 1 0 1 0 1 1 1 0 1 0 1 0 1 1",
-"1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 1",
-"1 0 1 0 1 1 1 0 1 0 1 0 1 1 1 1",
-"1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1",
+"1 0 c c c 1 c c c c c 1 c c 0 1",
+"1 c 1 1 c 1 c 1 c 1 c 1 c 1 c 1",
+"1 c 1 c c c c c c 1 c c l 1 c 1",
+"1 c c l 1 1 c 1 c 1 1 1 c 1 c 1",
+"1 c 1 c c c c 1 0 c c c c c c 1",
+"1 1 1 c 1 c 1 1 c 1 1 c 1 c 1 1",
+"c c c c 1 c c c c c 1 c 1 c c c",
+"1 c 1 c c c 1 c 1 c c c 1 1 c 1",
+"1 c 1 1 1 c 1 c 1 1 1 c 1 c c 1",
+"1 c c c c c c c 1 c c c c c 1 1",
+"1 c 1 c 1 c 1 1 1 c 1 c 1 c 1 1",
+"1 c 1 c c c c c c c 1 c c c c 1",
+"1 c 1 l 1 1 1 c 1 c 1 l 1 1 1 1",
+"1 0 c c c c c c 1 c c c c c 0 1",
 "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"};
 
 void clean_up_map(struct Entity tiles_entities[]) {
@@ -100,9 +82,20 @@ for (int i = 0; i < TILES_NUMBER_Y;  i = i + 1)
     tile.dest.w = TILE_WIDTH;
     tile.dest.h = TILE_HEIGHT;
 
+
     // set position identically to 2d array
     tile.dest.x = j / 2 * TILE_WIDTH;
     tile.dest.y = i * TILE_HEIGHT;
+
+    if (tile.type == 'c') {
+        double scale = 2.25;
+
+        tile.dest.w = TILE_WIDTH - TILE_WIDTH / scale;
+        tile.dest.h = TILE_HEIGHT - TILE_HEIGHT / scale;
+        tile.dest.x = tile.dest.x  + TILE_WIDTH / (scale * 2);
+        tile.dest.y = tile.dest.y + TILE_HEIGHT / (scale * 2);
+    }
+
 
     }  
     tiles_entities[n] = tile;

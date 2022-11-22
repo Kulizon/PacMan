@@ -26,7 +26,6 @@
 
 
 void main_game_loop(SDL_Renderer *rend, SDL_Window *win, struct Game *game, struct Menu *menu, struct Music *music, struct Entity *player, struct Entity ghosts[], struct Entity tiles_entities[], int *close_requested, int tiles_entities_size) {
-        
     // make the game run smoothly on all devices
     Uint32 frame_start;
     int frame_time;
@@ -38,7 +37,6 @@ void main_game_loop(SDL_Renderer *rend, SDL_Window *win, struct Game *game, stru
             if (*close_requested || (game->lives == 0 && game->map_points > 0)) break;
 
             SDL_RenderClear(rend);
-
             SDL_RemoveTimer(game->powerup_timer_id);
             init_game(game);
             clean_up_map(tiles_entities);

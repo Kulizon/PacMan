@@ -10,10 +10,11 @@
 #include <time.h>
 
 #include "../../main.h"
+#include "characters.h"
+#include "../map.h"
 #include "../entity.h"
 
 const char directions[4] = {'u', 'r', 'd', 'l'};
-
 
 void init_ghosts(SDL_Renderer *rend,  SDL_Window *win, struct Entity ghosts[]) {
     for (int i = 0; i < 4; i++)
